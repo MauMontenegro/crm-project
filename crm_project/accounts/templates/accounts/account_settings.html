@@ -1,0 +1,25 @@
+{% extends "accounts/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Account Settings</title>
+{% endblock %}
+
+{% block content %}
+<h5>Profile Settings</h5>
+
+<!-- Display profile picture -->
+<div class="w-16 h-16 m-6">
+    {% if request.user.customer.profile_pic %}
+        <img class="rounded-full" src="{{ request.user.customer.profile_pic.url }}" alt="Profile Picture">
+    {% else %}
+        <img class="rounded-full" src="{% static 'images/profile1.jpg' %}" alt="Default Profile Picture">
+    {% endif %}
+</div>
+
+<form method="POST" action="{% url 'home:account' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="submit">Submit</button>
+</form>
+{% endblock %}

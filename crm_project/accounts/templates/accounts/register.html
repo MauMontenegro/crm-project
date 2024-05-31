@@ -1,0 +1,44 @@
+{%load static%}
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% tailwind_css %}
+</head>
+
+<body style="background-image: url({%static 'images/fondo.png' %}); height: 400px">
+
+<div class="flex flex-row  justify-center my-12">
+<div class=" bg-slate-100/[.2] border-0 rounded-lg shadow-xl w-full max-w-md">
+    <h5 class="w-full text-center font-bold text-2xl font-sans mt-12 text-deepblue-900">Register</h5> 
+    <form method="POST" action="{%url 'home:register'%}">
+        {% csrf_token %}
+            
+        <div class="flex flex-col px-12 py-12 w-full">
+            <span class="font-medium font-sans">{{form.username.label}}:</span>
+            <input type="text" name="username" class="rounded-md border-1 border-0 bg-indigo-400/[.7]">           
+            <br>
+            <span class="font-medium font-sans">{{form.email.label}}:</span>
+            <input type="text" name="email"class="rounded-md border-0  bg-indigo-400/[.7]" >  
+            <br>
+            <span class="font-medium font-sans">{{form.password1.label}}:</span>
+            <input type="password" name="password1"class="rounded-md border-0  bg-indigo-400/[.7]">  
+            <br>
+            <span class="font-medium font-sans">{{form.password2.label}}:</span>
+            <input type="password" name="password2"class="rounded-md border-0  bg-indigo-400/[.7]">  
+            <button type="submit" name="Submit" class="mt-8 bg-blue-900 text-white mx-auto p-2 rounded-md hover:bg-gray-200 hover:text-black">Create User</button>                       
+        </div>       
+    </form>
+    
+    {{form.errors}}
+
+    <p class="text-wrap w-full text-center my-3">Already have an account? <a class="text-sky-700 font-bold hover:text-white" href="{%url 'home:login'%}">Login</a></p>
+</div>
+</div>
+
+</body>
+</html>

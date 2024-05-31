@@ -1,0 +1,19 @@
+{%extends 'accounts/base.html'%}
+
+{%block title%}
+<title>Order Form</title>
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="">
+    {%csrf_token%}
+    {{formset.management_form}} <!--Sends data in inline Formset-->
+    {%for form in formset%}
+        <div class="border-1 bg-slate-100 p-1 m-2">
+            {{form}}
+            <br>
+        </div>
+    {%endfor%}
+    <input type="submit" value="Submit"/>
+</form>
+{% endblock content %}

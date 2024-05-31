@@ -1,0 +1,41 @@
+{% load static %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%block title%}
+  
+    {%endblock%}    
+    <script src="{% static 'js/file.js' %}"></script>
+    {% tailwind_css %}
+</head>
+
+<body class="font-sans bg-white">
+
+<!--Navigation Bar-->
+<nav class="bg-slate-900">    
+    <ul class="flex justify-end p-3 align-middle height-100 text-white text-lg font-bold font-mono shadow-md">
+       <!-- <li> <img class="px-1 mx-1 w-10 h-10"src="{%static 'images/logo.svg'%}" alt="#"></li>-->
+       {% if request.user.is_staff %}
+            <li><span class="mx-4 text-blue-200">Hello, {{request.user}} </span>
+            <li> <a class="px-2 mx-4 bg-slate-600 p-1 rounded-lg  hover:bg-slate-700" href="{%url 'home:home'%}">Dashboard</a></li>        
+            <li> <a class="px-2 mx-4 bg-slate-600 p-1 rounded-lg  hover:bg-slate-700" href="{%url 'home:products'%}">Products</a></li>           
+        {%else%}
+        <li> <a class="px-2 mx-4 bg-slate-600 p-1 rounded-lg  hover:bg-slate-700" href="{%url 'home:account'%}">Settings</a></li>
+        {%endif%}
+        <!--<li><button onclick="loadContent('{% url 'home:products' %}')" class="border-2 bg-slate-50"> Testing</button> </li>-->       
+        <li><span class="px-2 mx-4 bg-slate-600 p-1 rounded-lg hover:bg-slate-700"><a href="{% url 'home:logout' %}">Logout</a></span></li>
+    </ul> 
+</nav>
+
+<div id="content">
+    {%block content%}
+
+    {%endblock%}
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "accounts/base.html" %}
+
+{%block title%}
+<title>Products</title>
+{% endblock %}
+
+{%block content%}
+
+<div class="bg-slate-50 rounded border-2 m-3">
+    <div>
+        <h5 class="mx-3 font-bold text-xl">Products</h5>
+    </div>
+    <hr class="h-px my-2 bg-gray-200 border-2 mx-3">
+    <div>
+        <table class="w-full text-left mx-3 text-lg">
+            <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+            </tr>
+            {%for i in products%}
+            <tr>
+                <td>{{i.name}}</td>
+                <td>{{i.category}}</td>
+                <td>{{i.price}}</td>
+            <tr>
+            {%endfor%}
+        </table>
+    </div>
+</div>
+
+
+{%endblock%}
