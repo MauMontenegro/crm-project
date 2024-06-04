@@ -66,7 +66,7 @@ def home(request):
     total_customers= customers.count()
     total_orders = orders.count()
     delivered=orders.filter(status='Delivered').count()
-    pending=orders.filter(status='Pending').count()
+    pending=orders.filter(status='Pending').count()  
 
     context={'orders':orders,'customers':customers,'total_orders':total_orders,'total_customers':total_customers,
              'delivered':delivered,'pending':pending}
@@ -92,6 +92,9 @@ def userPage(request):
     context={'orders':orders,'total_orders':total_orders,'delivered':delivered,'pending':pending}
     return render(request,'accounts/user.html',context)
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 @login_required(login_url='home:login')
 @allowed_users(allowed_roles=['customer'])
@@ -103,6 +106,7 @@ def accountSettings(request):
         if form.is_valid():
             # Check if a new profile picture is being uploaded
             if 'profile_pic' in request.FILES:
+                logger.info(f"New profile picture uploaded: {request.FILES['profile_pic'].name}")
                 # Delete the old profile picture if it exists and is not in use
                 if customer.profile_pic:
                     try:
@@ -111,8 +115,10 @@ def accountSettings(request):
                             customer.profile_pic.close()
                         # Delete the file if it exists
                         if customer.profile_pic.storage.exists(customer.profile_pic.name):
+                            logger.info(f"Deleting old profile picture: {customer.profile_pic.name}")
                             customer.profile_pic.delete(save=False)
                     except Exception as e:
+                        logger.error(f"Error deleting file: {e}")
                         print(f"Error deleting file: {e}")
             form.save()
             return redirect('home:account')
@@ -150,7 +156,7 @@ def customer(request,pk):
 @login_required(login_url='home:login')
 @allowed_users(allowed_roles=['admin'])
 def createOrder(request,pk):
-    OrderFormSet=inlineformset_factory(Customer,Order,fields=('product','status'),extra=5)  #Customer is the Father form and Orders are the childs (Multiple Orders for one Customer
+    OrderFormSet=inlineformset_factory(Customer,Order,fields=('product','status'),extra=3)  #Customer is the Father form and Orders are the childs (Multiple Orders for one Customer
     customer=Customer.objects.get(id=pk)
     formset=OrderFormSet(queryset=Order.objects.none(),instance=customer)
     #form=OrderForm(initial={'customer':customer})
@@ -171,14 +177,14 @@ def createOrder(request,pk):
 
 @login_required(login_url='home:login')
 @allowed_users(allowed_roles=['admin'])
-def updateOrder(request,pk):
+def updateOrder(request,pk):    
     order=Order.objects.get(id=pk)
     form=OrderForm(instance=order) 
 
-    if request.method == 'POST':
+    if request.method == 'POST':        
         form=OrderForm(request.POST,instance=order)
-        if form.is_valid():
-            form.save()
+        if form.is_valid():            
+            form.save()            
             return redirect('/')
 
 

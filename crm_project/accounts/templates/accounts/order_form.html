@@ -7,13 +7,37 @@
 {% block content %}
 <form method="POST" action="">
     {%csrf_token%}
-    {{formset.management_form}} <!--Sends data in inline Formset-->
-    {%for form in formset%}
-        <div class="border-1 bg-slate-100 p-1 m-2">
-            {{form}}
-            <br>
+
+    {%if form%}
+    <div class="border-1 bg-slate-100 p-1 m-2">
+        <div class="flex justify-start gap-2 items-center">
+            {{form.product.label}}
+            {{form.product}}
+            {{form.status.label}}
+            {{form.status}}
+            {{form.customer.label}}
+            {{form.customer}}       
         </div>
-    {%endfor%}
-    <input type="submit" value="Submit"/>
+    </div>
+    <button type="Submit" value="Submit"
+     class="bg-slate-400 hover:bg-slate-900 hover:text-white rounded-md p-1 mx-3">Update</button>
+    {%else%}
+
+        {{formset.management_form}} <!--Sends data in inline Formset-->
+        {%for form in formset%}
+            <div class="border-1 bg-slate-100 p-1 m-2">
+                <div class="flex justify-start gap-2 items-center">
+                    {{form.product.label}}
+                    {{form.product}}
+                    {{form.status.label}}
+                    {{form.status}}
+                    <br>
+                </div>
+            </div>
+        {%endfor%}
+        <button type="Submit" value="Submit"
+        class="bg-slate-400 hover:bg-slate-900 hover:text-white rounded-md p-1 mx-3">Submit</button>
+    {%endif%}
+    
 </form>
 {% endblock content %}

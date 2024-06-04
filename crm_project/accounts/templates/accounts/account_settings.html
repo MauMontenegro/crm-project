@@ -9,17 +9,28 @@
 <h5>Profile Settings</h5>
 
 <!-- Display profile picture -->
-<div class="w-16 h-16 m-6">
-    {% if request.user.customer.profile_pic %}
-        <img class="rounded-full" src="{{ request.user.customer.profile_pic.url }}" alt="Profile Picture">
-    {% else %}
-        <img class="rounded-full" src="{% static 'images/profile1.jpg' %}" alt="Default Profile Picture">
-    {% endif %}
+<div class="bg-slate-100 w-1/4 m-auto rounded-md shadow-md">
+    <div class="p-3 scale-75">  <!--Image Container-->
+        {% if request.user.customer.profile_pic %}
+            <img class="rounded-full" src="{{ request.user.customer.profile_pic.url }}" alt="Profile Picture">
+        {% else %}
+            <img class="rounded-full" src="{% static 'images/profile1.jpg' %}" alt="Default Profile Picture">
+        {% endif %}        
+    </div>
+    <hr class="my-1 h-1 mx-2 bg-gray-300 ">
+    <form method="POST" action="{% url 'home:account' %}" enctype="multipart/form-data">
+        <div class="flex flex-col gap-1 items-center justify-center">
+            {% csrf_token %}           
+            {{form.name.label}} {{form.name}}
+            {{form.phone.label}} {{form.phone}}
+            {{form.email.label}} {{form.email}}
+            {{form.profile_pic}} 
+            <button class="bg-green-400 pt-2 rounded-md shadow-sm px-1 m-1 hover:bg-green-200 hover:border-2" type="submit" name="submit">Submit</button>           
+        </div>
+        
+    </form>
 </div>
 
-<form method="POST" action="{% url 'home:account' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" name="submit">Submit</button>
-</form>
+    
+
 {% endblock %}

@@ -54,17 +54,13 @@
                 </tr class="h-10">
                 {%for customer in customers%}
                     <tr class="">
-                        <td class="border-t-2 border-b-2 border-slate-200/[.3] font-semibold"><a href="{%url 'home:customer' customer.id%}" class=" text-green-700 text-xs hover:text-green-400">Info</a></td>
+                        <td class="border-t-2 border-b-2 border-slate-200/[.3] font-semibold"><a href="{%url 'home:customer' customer.id%}"
+                             class=" text-green-700 text-xs hover:text-green-400 rounded p-0.5 bg-green-300 hover:bg-green-900">Info</a></td>
                         <td class="border-t-2 border-b-2 border-slate-200/[.3] font-semibold">{{customer.name}}</td>
                         <td class="border-t-2 border-b-2 border-slate-200/[.3] font-semibold"></td>
                     </tr>
                 {%endfor%}
-            </table>
-            <div class="flex justify-center">
-                <button class="p-1 mt-3 text-sm bg-blue-300 text-white hover:bg-blue-600 hover:text-white border-1 rounded-lg">    
-                    Create User
-                </button>
-            </div>
+            </table>        
         </div>
     </div>
 
